@@ -3,17 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My avatar 3</title>
+<title>Saturn Ring orb</title>
 <style>
-  html, body { height:100%; margin:0; background:transparent; }
-  body { display:flex; align-items:center; justify-content:center; touch-action:manipulation; overflow:hidden; }
-  /* EDIT THE LOOK HERE: size, animation, glow */
-  #face { font-size:58px; line-height:1; user-select:none; filter:drop-shadow(0 4px 8px rgba(0,0,0,.35)); animation:float 3s ease-in-out infinite; }
-  @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+  html, body { height:100%; margin:0; background:transparent; overflow:hidden; touch-action:manipulation; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; display:block; }
 </style>
 </head>
 <body>
-  <!-- EDIT YOUR EMOJI HERE (also update the same emoji in gallery.html so the preview card matches) -->
-  <div id="face">🔥</div>
+<canvas id="c"></canvas>
+<script src="orb-core.js"></script>
+<script>
+/* EDIT HERE: colours (0..1 RGB), speed, size, rings. Nothing else needs to change. */
+OrbAvatar.start({
+  radius: 0.28, spin: 0.55, tilt: 0.25, noise: 0.05, cyan: 0.60, purple: 0.25, halo: 0.28,
+  pal: { deep: [0.0,0.12,0.20], blue: [0.10,0.65,0.85], cyan: [0.35,1.0,0.90], purp: [0.25,0.55,1.0] },
+  rings: [
+    { rx: 1.75, ry: 0.46, rot: -0.38, n: 30, speed: 0.55, color: [0.35,1.0,0.90], size: 1.2 },
+    { rx: 1.45, ry: 0.36, rot: -0.38, n: 18, speed: 0.80, color: [0.20,0.70,1.0], size: 1.1 }
+  ]
+});
+</script>
 </body>
 </html>
