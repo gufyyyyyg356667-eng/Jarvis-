@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Nova character</title>
+<style>
+  html, body { margin:0; height:100%; background:#070914; overflow:hidden; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; display:block; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+/* ============ EASY SETTINGS (design only) ============ */
+const CFG = {
+  zoom: 1.10,        // bigger = character closer
+  shiftY: -0.08,     // negative = character moves up (fraction of screen height)
+  focusX: 540,       // horizontal focus point inside the 1024px image
+  mouthGain: 1.15,   // how wide the mouth opens for the same voice
+  breathe: 0.006     // breathing amount
+};
+/* ======================================================= */
+const IMG_W = 1024, IMG_H = 1536;
+const MOUTH_BOX = { x: 440, y: 610 };           // where mouth patches belong in the base image
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const base = new Image(); base.src = 'character/base.webp';
+const mouths = [null, new Image(), new Image(), new Image()];
+mouths[1].src = 'character/mouth1.png';
+mouths[2].src = 'character/mouth2.png';
+mouths[3].src = 'character/mouth3.png';
+
+let state = null, amp = 0, peak = 0.08, level = 0, glow = 0;
+let vw = 0, vh = 0, dpr = 1;
+
+function resize() {
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  vw = window.innerWidth; vh = window.innerHeight;
+  cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
+}
+window.addEventListener('resize', resize); resize();
+
+window.NovaCharacter = {
+  setState: s => { state = s; },
+  setAudio: a => { amp = Math.max(0, Math.min(1, +a || 0)); }
+};
+
+function frame(t) {
+  requestAnimationFrame(frame);
+  if (document.hidden || !base.complete || !base.naturalWidth) return;
+  const speaking = state === 'speaking' || (state === null && amp > 0.02);
+  // adaptive loudness so it works with any amplitude scale
+  peak = Math.max(peak * 0.9985, amp, 0.05);
+  const target = speaking ? Math.min(1, (amp / peak) * CFG.mouthGain) : 0;
+  level += (target - level) * (target > level ? 0.55 : 0.22);
+  glow += ((speaking ? 0.35 + 0.65 * level : 0.12) - glow) * 0.08;
+
+  const sec = t / 1000;
+  const breathe = 1 + CFG.breathe * Math.sin(sec * 1.4) + (speaking ? 0.004 * level : 0);
+  const sway = speaking ? Math.sin(sec * 2.1) * 0.0045 : Math.sin(sec * 0.6) * 0.0015;
+
+  const s = (vh / IMG_H) * CFG.zoom;
+  const drawW = IMG_W * s, drawH = IMG_H * s;
+  let ox = vw / 2 - CFG.focusX * s;
+  ox = Math.min(0, Math.max(vw - drawW, ox));
+  const oy = CFG.shiftY * vh;
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, vw, vh);
+  ctx.save();
+  // pivot near the chest so breathing/sway looks natural
+  ctx.translate(vw / 2, oy + drawH * 0.62);
+  ctx.rotate(sway);
+  ctx.scale(breathe, breathe);
+  ctx.translate(-vw / 2, -(oy + drawH * 0.62));
+  ctx.translate(ox, oy);
+  ctx.scale(s, s);
+  ctx.drawImage(base, 0, 0);
+
+  // mouth: blend two neighbouring opening levels
+  const pos = level * 3, i = Math.floor(pos), f = pos - i;
+  const draw = (idx, a) => {
+    const m = mouths[idx];
+    if (a > 0.01 && m && m.complete && m.naturalWidth) {
+      ctx.globalAlpha = a; ctx.drawImage(m, MOUTH_BOX.x, MOUTH_BOX.y); ctx.globalAlpha = 1;
+    }
+  };
+  if (i >= 3) draw(3, 1);
+  else { if (i >= 1) draw(i, 1 - f); draw(i + 1, f); }
+  ctx.restore();
+
+  // soft blue/violet light that pulses with the voice
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+  const g = ctx.createRadialGradient(vw * 0.5, vh * 0.30, 10, vw * 0.5, vh * 0.30, vh * 0.42);
+  g.addColorStop(0, 'rgba(120,150,255,' + (0.10 * glow) + ')');
+  g.addColorStop(1, 'rgba(120,150,255,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, vw, vh);
+  ctx.restore();
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -12,6 +12,37 @@
     android:paddingTop="16dp"
     android:paddingBottom="96dp">
 
+    <!-- Nova character (talks with the voice) -->
+    <WebView
+        android:id="@+id/characterWebView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginTop="-16dp"
+        android:layout_marginBottom="-96dp"
+        android:background="@android:color/transparent"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/characterScrim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginTop="-16dp"
+        android:layout_marginBottom="-96dp"
+        android:background="@drawable/bg_nova_scrim"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Ambient Liquid Glass Glow Fields (Soft luminous refractions behind glass) -->
     <View
         android:id="@+id/glowOrbTopRight"
@@ -78,7 +109,7 @@
             android:id="@+id/tvGreeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome, Rehaan"
+            android:text="Welcome, Habib"
             android:textColor="?attr/themeTextPrimary"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -104,8 +135,8 @@
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintHeight_percent="0.45"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintHeight_percent="0.30"
+        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintTop_toBottomOf="@id/layoutTitle"
         app:layout_constraintBottom_toTopOf="@id/layoutStatusIndicator"
         app:layout_constraintStart_toStartOf="parent"

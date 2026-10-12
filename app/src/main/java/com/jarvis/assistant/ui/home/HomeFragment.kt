@@ -119,6 +119,7 @@ class HomeFragment : Fragment() {
         updateHomeHeaderAndVoiceStatus()
         observeViewModel()
         checkLocationAndFetchWeather()
+        setupCharacterWebView()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -181,8 +182,33 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setupCharacterWebView() {
+        binding.characterWebView.apply {
+            setBackgroundColor(Color.TRANSPARENT)
+            setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            isClickable = false
+            isLongClickable = false
+            isFocusable = false
+            isFocusableInTouchMode = false
+            isVerticalScrollBarEnabled = false
+            isHorizontalScrollBarEnabled = false
+            overScrollMode = View.OVER_SCROLL_NEVER
+            settings.apply {
+                javaScriptEnabled = true
+                allowFileAccess = true
+                @Suppress("DEPRECATION")
+                allowFileAccessFromFileURLs = true
+            }
+            loadUrl("file:///android_asset/character.html")
+        }
+    }
+
     fun setOrbState(state: String) {
         pendingOrbState = state
+        activity?.runOnUiThread {
+            _binding?.characterWebView?.evaluateJavascript("window.NovaCharacter && window.NovaCharacter.setState('$state');", null)
+        }
         if (!isPageLoaded) return
         activity?.runOnUiThread {
             binding.orbWebView.evaluateJavascript("window.JarvisOrb && window.JarvisOrb.setState('$state');", null)
@@ -214,6 +240,7 @@ class HomeFragment : Fragment() {
         if (now - lastAudioPushTime < 33L) return // ~30 calls per second throttle
         lastAudioPushTime = now
         activity?.runOnUiThread {
+            _binding?.characterWebView?.evaluateJavascript("window.NovaCharacter && window.NovaCharacter.setAudio($amp);", null)
             binding.orbWebView.evaluateJavascript("window.JarvisOrb && window.JarvisOrb.setExternalAudio($amp, $bass, $high);", null)
         }
     }
@@ -223,6 +250,7 @@ class HomeFragment : Fragment() {
         com.jarvis.assistant.util.ThemeManager.applyDynamicBackground(binding.root)
         binding.orbWebView.onResume()
         binding.orbWebView.resumeTimers()
+        binding.characterWebView.onResume()
         renderTaskFallback(com.jarvis.assistant.automation.agent.AgentTaskEngine.taskState.value)
 
         // Sync theme with settings
@@ -236,6 +264,7 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+        binding.characterWebView.onPause()
         binding.orbWebView.onPause()
         binding.orbWebView.pauseTimers()
     }
@@ -290,7 +319,7 @@ class HomeFragment : Fragment() {
 
     private fun updateHomeHeaderAndVoiceStatus() {
         if (_binding == null) return
-        val userName = preferences.userName.ifBlank { "Rehaan" }
+        val userName = preferences.userName.ifBlank { "Habib" }
         val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
         val timeGreeting = when (hour) {
             in 4..11 -> "Good morning"
