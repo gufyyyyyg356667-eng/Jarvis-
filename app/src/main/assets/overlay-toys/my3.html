@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" style="background:transparent">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My avatar 3</title>
+<style>
+  html, body { height:100%; margin:0; background:transparent; }
+  body { display:flex; align-items:center; justify-content:center; touch-action:manipulation; overflow:hidden; }
+  /* EDIT THE LOOK HERE: size, animation, glow */
+  #face { font-size:58px; line-height:1; user-select:none; filter:drop-shadow(0 4px 8px rgba(0,0,0,.35)); animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+</style>
+</head>
+<body>
+  <!-- EDIT YOUR EMOJI HERE (also update the same emoji in gallery.html so the preview card matches) -->
+  <div id="face">🔥</div>
+</body>
+</html>

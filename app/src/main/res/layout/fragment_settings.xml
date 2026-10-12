@@ -150,7 +150,7 @@
                             android:id="@+id/tvProfileName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rehaan"
+                            android:text="Habib"
                             android:textColor="?attr/themeTextPrimary"
                             android:textSize="18sp"
                             android:fontFamily="sans-serif-medium"
@@ -1119,13 +1119,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_jarvis_icon_square"
-                    android:src="@drawable/ic_social_instagram"
+                    android:src="@drawable/ic_social_facebook"
                     app:tint="?attr/themeAccent"
                     android:layout_marginEnd="12dp"
-                    android:contentDescription="Instagram" />
+                    android:contentDescription="Facebook" />
 
                 <ImageButton
                     android:id="@+id/btnSocialYoutube"
+                    android:visibility="gone"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_jarvis_icon_square"
@@ -1139,7 +1140,7 @@
                 android:id="@+id/tvFooterCredit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="JARVIS INTELLIGENCE OS • v3.1 PRO\nEngineered by TechGPT X"
+                android:text="JARVIS INTELLIGENCE OS • v3.1 PRO\nEngineered by Habib"
                 android:textColor="?attr/themeTextMuted"
                 android:textSize="12sp"
                 android:fontFamily="sans-serif-medium"

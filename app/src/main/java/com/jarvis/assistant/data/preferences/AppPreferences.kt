@@ -235,7 +235,7 @@ class AppPreferences(context: Context) {
     var userName: String
         get() {
             val name = prefs.getString(KEY_USER_NAME, "") ?: ""
-            return if (name.isBlank() || name == "Salaam") "TechGPT X" else name
+            return if (name.isBlank() || name == "Salaam") "Habib" else name
         }
         set(value) {
             prefs.edit().putString(KEY_USER_NAME, value.trim()).commit()
@@ -243,7 +243,7 @@ class AppPreferences(context: Context) {
 
     var appTheme: String
         get() {
-            val stored = prefs.getString(KEY_APP_THEME, "sunset") ?: "sunset"
+            val stored = prefs.getString(KEY_APP_THEME, "dark") ?: "dark"
             return when (stored) {
                 "light", "pearl_white" -> "light"
                 "dark", "midnight_onyx", "cyberpunk_neon", "emerald_obsidian" -> "dark"
@@ -338,7 +338,7 @@ class AppPreferences(context: Context) {
     var taskOverlayAvatar: String
         get() = prefs.getString(KEY_TASK_OVERLAY_AVATAR, "ghost") ?: "ghost"
         set(value) {
-            val available = listOf("alien", "blob", "cat", "circle", "cloud", "droid", "drop", "flower", "ghost", "hexagon", "mech", "pebble", "pill", "puddle", "square", "star", "triangle")
+            val available = listOf("alien", "blob", "cat", "circle", "cloud", "droid", "drop", "flower", "ghost", "hexagon", "mech", "pebble", "pill", "puddle", "square", "star", "triangle", "my1", "my2", "my3", "my4", "my5")
             prefs.edit().putString(KEY_TASK_OVERLAY_AVATAR, value.takeIf { it in available } ?: "ghost").apply()
         }
 

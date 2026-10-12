@@ -57,6 +57,9 @@
     }
     const gallery = document.getElementById("gallery");
     gallery.innerHTML = avatars.map(([name, color, light]) => `<button id="avatar-${name}" class="avatar-card" type="button" onclick="window.JarvisAvatarPicker?.selectAvatar('${name}')">${icon(name, color, light)}<span class="avatar-name">${name}</span></button>`).join("");
+    // MY CUSTOM AVATARS: emoji here is only the preview card. Keep it the same as the emoji inside my1.html ... my5.html.
+    const customAvatars = [["my1", "😎"], ["my2", "🤖"], ["my3", "🔥"], ["my4", "🐱"], ["my5", "⭐"]];
+    gallery.innerHTML += customAvatars.map(([name, emoji]) => `<button id="avatar-${name}" class="avatar-card" type="button" onclick="window.JarvisAvatarPicker?.selectAvatar('${name}')"><span class="avatar-image" style="font-size:50px;line-height:68px;text-align:center">${emoji}</span><span class="avatar-name">${name}</span></button>`).join("");
     window.setSelectedAvatar = name => {
       document.querySelectorAll(".avatar-card").forEach(card => card.classList.remove("selected"));
       document.getElementById(`avatar-${name}`)?.classList.add("selected");

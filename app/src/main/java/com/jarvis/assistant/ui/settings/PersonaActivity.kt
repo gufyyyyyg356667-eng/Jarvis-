@@ -45,7 +45,7 @@ class PersonaActivity : AppCompatActivity() {
         }
         selectPersona(initialPersona, updateVoiceDefault = false)
 
-        binding.etUserName.setText(preferences.userName.ifBlank { "TechGPT X" })
+        binding.etUserName.setText(preferences.userName.ifBlank { "Habib" })
 
         selectVoice(preferences.voice)
         updatePersonaPreview()
@@ -106,7 +106,7 @@ class PersonaActivity : AppCompatActivity() {
             GeminiConstants.PERSONALITY_TECHGPT_X -> "TechGPT X"
             else -> "Jarvis Pro"
         }
-        val operator = binding.etUserName.text?.toString()?.trim().takeUnless { it.isNullOrBlank() } ?: "TechGPT X"
+        val operator = binding.etUserName.text?.toString()?.trim().takeUnless { it.isNullOrBlank() } ?: "Habib"
         binding.tvPersonaPreview.text = "$persona · ${getSelectedVoice()}"
         binding.tvPersonaGreeting.text = "Ready to help, $operator."
     }
@@ -137,7 +137,7 @@ class PersonaActivity : AppCompatActivity() {
         if (!userName.isNullOrBlank()) {
             preferences.userName = userName
         } else {
-            preferences.userName = "TechGPT X"
+            preferences.userName = "Habib"
         }
 
         val voice = getSelectedVoice()

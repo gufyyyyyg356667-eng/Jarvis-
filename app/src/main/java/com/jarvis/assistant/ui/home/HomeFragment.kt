@@ -184,6 +184,13 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupCharacterWebView() {
+        val themePrefs = JarvisApp.instance.preferences
+        val themeBg = com.jarvis.assistant.util.ThemeManager.getThemeBgColor(themePrefs.appTheme, themePrefs.customThemeColor)
+        if (com.jarvis.assistant.util.ThemeManager.isLight(themeBg)) {
+            binding.characterWebView.visibility = View.GONE
+            binding.characterScrim.visibility = View.GONE
+            return
+        }
         binding.characterWebView.apply {
             setBackgroundColor(Color.TRANSPARENT)
             setLayerType(View.LAYER_TYPE_HARDWARE, null)

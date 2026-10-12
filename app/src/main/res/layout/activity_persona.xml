@@ -113,7 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Ready to help, TechGPT X."
+                        android:text="Ready to help, Habib."
                         android:textColor="?attr/themeTextMuted"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -188,7 +188,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Intelligent, witty &amp; strategic assistant by TechGPT X"
+                        android:text="Intelligent, witty &amp; strategic assistant by Habib"
                         android:textColor="?attr/themeTextMuted"
                         android:textSize="12sp"
                         android:fontFamily="sans-serif"
@@ -459,7 +459,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User Name (Default: TechGPT X)"
+                android:text="User Name (Default: Habib)"
                 android:textColor="?attr/themeTextMuted"
                 android:textSize="13sp"
                 android:fontFamily="sans-serif-medium"
@@ -498,8 +498,8 @@
                         android:id="@+id/etUserName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="TechGPT X"
-                        android:text="TechGPT X"
+                        android:hint="Habib"
+                        android:text="Habib"
                         android:inputType="textPersonName"
                         android:textColor="?attr/themeTextPrimary"
                         android:textSize="14sp"
