@@ -22,7 +22,6 @@
 </head>
 <body>
   <div id="gallery"></div>
-<script src="orb-core.js"></script>
   <script>
     const avatars = [
       ["alien", "#70d920", "#b9fb54"], ["blob", "#04bd70", "#82ffb3"], ["cat", "#f47b24", "#ffc462"],
@@ -68,7 +67,14 @@
       ["my5", "⭐", "Star emoji"]
     ];
     gallery.innerHTML += customAvatars.map(([name, preview, label]) => `<button id="avatar-${name}" class="avatar-card" type="button" onclick="window.JarvisAvatarPicker?.selectAvatar('${name}')"><span class="avatar-image" style="font-size:50px;line-height:68px;text-align:center;display:block">${preview}</span><span class="avatar-name">${label}</span></button>`).join("");
-    document.querySelectorAll("canvas[data-orb]").forEach(c => { try { OrbAvatar.start({ preset: c.dataset.orb, canvas: c, fps: 20 }); } catch (e) {} });
+    // Previews are drawn once (no animation) and only AFTER the page is shown, so the gallery can never get stuck.
+    setTimeout(() => {
+      try {
+        const sc = document.createElement("script"); sc.src = "orb-core.js";
+        sc.onload = () => document.querySelectorAll("canvas[data-orb]").forEach(c => { try { OrbAvatar.start({ preset: c.dataset.orb, canvas: c, once: true }); } catch (e) {} });
+        document.head.appendChild(sc);
+      } catch (e) {}
+    }, 500);
     window.setSelectedAvatar = name => {
       document.querySelectorAll(".avatar-card").forEach(card => card.classList.remove("selected"));
       document.getElementById(`avatar-${name}`)?.classList.add("selected");
