@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Saturn Ring orb</title>
+<title>Sunset orb</title>
 <style>
   html, body { height:100%; margin:0; background:transparent; overflow:hidden; touch-action:manipulation; }
   canvas { position:fixed; inset:0; width:100%; height:100%; display:block; }
@@ -13,15 +13,9 @@
 <canvas id="c"></canvas>
 <script src="orb-core.js"></script>
 <script>
-/* EDIT HERE: colours (0..1 RGB), speed, size, rings. Nothing else needs to change. */
-OrbAvatar.start({
-  radius: 0.28, spin: 0.55, tilt: 0.25, noise: 0.05, cyan: 0.60, purple: 0.25, halo: 0.28,
-  pal: { deep: [0.0,0.12,0.20], blue: [0.10,0.65,0.85], cyan: [0.35,1.0,0.90], purp: [0.25,0.55,1.0] },
-  rings: [
-    { rx: 1.75, ry: 0.46, rot: -0.38, n: 30, speed: 0.55, color: [0.35,1.0,0.90], size: 1.2 },
-    { rx: 1.45, ry: 0.36, rot: -0.38, n: 18, speed: 0.80, color: [0.20,0.70,1.0], size: 1.1 }
-  ]
-});
+/* Same orb as the home screen. preset: 'nova' (dark theme), 'ruby' (red theme), 'sunset', 'aqua' (listening look).
+   Optional extras: bright (1 = normal), fps (default 30), count (dust points, 0 = automatic). */
+OrbAvatar.start({ preset: 'sunset' });
 </script>
 </body>
 </html>

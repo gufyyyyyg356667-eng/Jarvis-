@@ -22,6 +22,7 @@
 </head>
 <body>
   <div id="gallery"></div>
+<script src="orb-core.js"></script>
   <script>
     const avatars = [
       ["alien", "#70d920", "#b9fb54"], ["blob", "#04bd70", "#82ffb3"], ["cat", "#f47b24", "#ffc462"],
@@ -57,16 +58,17 @@
     }
     const gallery = document.getElementById("gallery");
     gallery.innerHTML = avatars.map(([name, color, light]) => `<button id="avatar-${name}" class="avatar-card" type="button" onclick="window.JarvisAvatarPicker?.selectAvatar('${name}')">${icon(name, color, light)}<span class="avatar-name">${name}</span></button>`).join("");
-    // MY CUSTOM AVATARS: [file name, preview, label]. my1-my4 are particle orbs, my5 is an emoji slot.
-    // Orb colours live inside my1.html ... my4.html; here only the small preview card is drawn.
+    // MY CUSTOM AVATARS: [file name, preview, label]. my1-my4 are live mini versions of the home orb (orb-core.js).
+    const orbCanvas = p => `<canvas data-orb="${p}" style="width:64px;height:64px;display:block;margin:2px auto 0"></canvas>`;
     const customAvatars = [
-      ["my1", `<span style="display:block;width:44px;height:44px;margin:12px auto 0;border-radius:50%;background:radial-gradient(circle at 35% 32%,#9fd0ff,#2f6bff 52%,#0a1a5c);box-shadow:0 0 16px #3b82f6aa"></span>`, "Nova"],
-      ["my2", `<span style="display:block;width:44px;height:44px;margin:12px auto 0;border-radius:50%;background:radial-gradient(circle at 35% 32%,#f0b8ff,#a855f7 52%,#3b0f66);box-shadow:0 0 16px #c084fcaa"></span>`, "Violet"],
-      ["my3", `<span style="display:block;width:44px;height:44px;margin:12px auto 0;border-radius:50%;background:radial-gradient(circle at 35% 32%,#b8fff0,#22d3c5 52%,#053b4a);box-shadow:0 0 16px #2dd4bfaa"></span>`, "Saturn"],
-      ["my4", `<span style="display:block;width:44px;height:44px;margin:12px auto 0;border-radius:50%;background:radial-gradient(circle at 35% 32%,#ffe08a,#f97316 52%,#5a1405);box-shadow:0 0 16px #fb923caa"></span>`, "Solar"],
+      ["my1", orbCanvas("nova"), "Nova"],
+      ["my2", orbCanvas("ruby"), "Ruby"],
+      ["my3", orbCanvas("sunset"), "Sunset"],
+      ["my4", orbCanvas("aqua"), "Aqua"],
       ["my5", "⭐", "Star emoji"]
     ];
     gallery.innerHTML += customAvatars.map(([name, preview, label]) => `<button id="avatar-${name}" class="avatar-card" type="button" onclick="window.JarvisAvatarPicker?.selectAvatar('${name}')"><span class="avatar-image" style="font-size:50px;line-height:68px;text-align:center;display:block">${preview}</span><span class="avatar-name">${label}</span></button>`).join("");
+    document.querySelectorAll("canvas[data-orb]").forEach(c => { try { OrbAvatar.start({ preset: c.dataset.orb, canvas: c, fps: 20 }); } catch (e) {} });
     window.setSelectedAvatar = name => {
       document.querySelectorAll(".avatar-card").forEach(card => card.classList.remove("selected"));
       document.getElementById(`avatar-${name}`)?.classList.add("selected");
