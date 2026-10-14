@@ -633,6 +633,9 @@ class GeminiLiveWebSocket(
                             })
                         })
 
+                        // Planner tools: alarms, timers, reminders, to-do, routines, daily brief ...
+                        com.jarvis.assistant.planner.PlannerTools.declarations().forEach { put(it) }
+
                         // 21. inspect_screen
                         put(JSONObject().apply {
                             put("name", "inspect_screen")
