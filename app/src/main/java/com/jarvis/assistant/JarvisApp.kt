@@ -87,6 +87,9 @@ class JarvisApp : Application() {
 
         VoskModelManager.init(this, CoroutineScope(Dispatchers.Default))
 
+        // Planner: alarms, reminders, routines (additive, wrapped in try/catch inside)
+        com.jarvis.assistant.planner.PlannerRuntime.init(this)
+
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             private var startedActivities = 0
             override fun onActivityCreated(activity: android.app.Activity, savedInstanceState: android.os.Bundle?) {

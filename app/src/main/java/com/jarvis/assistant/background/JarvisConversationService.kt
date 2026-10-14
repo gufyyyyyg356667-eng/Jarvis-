@@ -1612,6 +1612,15 @@ class JarvisConversationService : Service() {
                         withTimeout(automationToolTimeoutMs()) {
                             val app = application as? JarvisApp ?: return@withTimeout
 
+                            if (com.jarvis.assistant.planner.PlannerTools.handles(name)) {
+                                val plannerResult = com.jarvis.assistant.planner.PlannerTools.execute(applicationContext, name, args)
+                                liveWebSocket?.sendToolResponse(callId, name, plannerResult)
+                                return@withTimeout
+                            }
+
+                            // If the phone is locked and auto-unlock is on, unlock first (no-op otherwise)
+                            com.jarvis.assistant.unlock.PhoneUnlocker.ensureUnlockedFor(applicationContext, name)
+
                 hasExecutedCommandInCurrentTurn = true
                 lastCommandExecutionTime = System.currentTimeMillis()
                 suppressAudioUntilTurnComplete = false

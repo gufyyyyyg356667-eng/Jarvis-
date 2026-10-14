@@ -169,6 +169,14 @@ class SettingsFragment : Fragment() {
             startActivity(Intent(requireContext(), OverlayAvatarActivity::class.java))
         }
 
+        binding.rowPlanner.setOnClickListener {
+            startActivity(Intent(requireContext(), com.jarvis.assistant.planner.PlannerActivity::class.java))
+        }
+
+        binding.rowUnlock.setOnClickListener {
+            startActivity(Intent(requireContext(), com.jarvis.assistant.unlock.UnlockSetupActivity::class.java))
+        }
+
         binding.rowApplications.setOnClickListener {
             startActivity(Intent(requireContext(), HandsFreeActivity::class.java))
         }
