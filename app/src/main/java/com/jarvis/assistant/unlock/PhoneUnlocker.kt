@@ -204,6 +204,45 @@ object PhoneUnlocker {
         return svc.clickAt(r.exactCenterX(), r.exactCenterY())
     }
 
+    /** For diagnostics only: wakes the screen, swipes up, then lists every visible node. No PIN is typed. */
+    fun scanLockScreen(ctx: Context): String {
+        val svc = JarvisAccessibilityService.instance ?: return "Accessibility is not connected.\n"
+        wakeScreen(ctx)
+        sleep(800)
+        swipeUp(svc, ctx)
+        sleep(1500)
+        val sb = StringBuilder()
+        sb.append("Lock screen showing: ").append(isLocked(ctx)).append('\n')
+        var lines = 0
+        for (root in roots(svc)) {
+            sb.append("== window root package: ").append(root.packageName).append('\n')
+            lines = dumpNodes(root, 0, sb, lines)
+            if (lines > 220) break
+        }
+        if (lines == 0) sb.append("No nodes visible: the lock screen hides its content from accessibility.\n")
+        return sb.toString()
+    }
+
+    private fun dumpNodes(n: AccessibilityNodeInfo?, depth: Int, sb: StringBuilder, count: Int): Int {
+        if (n == null || depth > 25 || count > 220) return count
+        var c = count
+        val id = n.viewIdResourceName ?: ""
+        val text = if (n.isPassword) "***" else (n.text?.toString() ?: "")
+        val desc = n.contentDescription?.toString() ?: ""
+        if (id.isNotEmpty() || text.isNotEmpty() || desc.isNotEmpty() || n.isClickable) {
+            val r = Rect()
+            n.getBoundsInScreen(r)
+            sb.append("  ".repeat(if (depth > 6) 6 else depth))
+                .append(n.className).append(" id=").append(id.substringAfterLast('/'))
+                .append(" t='").append(text.take(20)).append("' d='").append(desc.take(20)).append("'")
+                .append(if (n.isClickable) " CLICK " else " ")
+                .append(r.toShortString()).append('\n')
+            c++
+        }
+        for (i in 0 until n.childCount) c = dumpNodes(n.getChild(i), depth + 1, sb, c)
+        return c
+    }
+
     // ------------------------------------------------------------------ voice tools
     private val TOOLS = setOf("unlock_phone", "lock_phone")
 

@@ -52,6 +52,7 @@ class DiagnosticsActivity : AppCompatActivity() {
         row.addView(btn("Copy") { copy() })
         root.addView(row)
         root.addView(btn("Typing test (starts in 8 s: open any app and tap a text box)") { typingTest() })
+        root.addView(btn("Lock-screen scan (locks the phone, then unlock it yourself)") { lockScan() })
 
         output = TextView(this)
         output.setTextColor(cText)
@@ -130,6 +131,20 @@ class DiagnosticsActivity : AppCompatActivity() {
                 val ok = try { svc.typeText("Jarvis test") } catch (e: Exception) { false }
                 sb.append("typeText result: ").append(if (ok) "SUCCESS (text was typed)" else "FAILED").append('\n')
             }
+            runOnUiThread { runReport(sb.toString()) }
+        }.start()
+    }
+
+    private fun lockScan() {
+        Toast.makeText(this, "The phone will lock, wake and be scanned. Do not touch it for 12 seconds, then unlock it yourself.", Toast.LENGTH_LONG).show()
+        Thread {
+            val sb = StringBuilder("---- LOCK SCREEN SCAN ----\n")
+            sb.append("lock: ").append(PhoneUnlocker.lock(applicationContext)).append('\n')
+            try {
+                Thread.sleep(3500)
+            } catch (e: InterruptedException) {
+            }
+            sb.append(PhoneUnlocker.scanLockScreen(applicationContext))
             runOnUiThread { runReport(sb.toString()) }
         }.start()
     }
