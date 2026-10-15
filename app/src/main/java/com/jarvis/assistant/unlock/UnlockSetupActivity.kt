@@ -152,6 +152,11 @@ class UnlockSetupActivity : AppCompatActivity() {
         content.addView(auto)
         content.addView(text("With this on, if your phone is locked and you ask for something that needs the screen (open an app, WhatsApp, YouTube), Jarvis unlocks first. Anyone whose voice Jarvis accepts can do the same, so keep Owner Voice protection on.", 12f, cMuted))
 
+        content.addView(text("Not working? Run the checker and send me the result", 15f, cText, true))
+        content.addView(button("Run diagnostics") {
+            startActivity(Intent(this, DiagnosticsActivity::class.java))
+        })
+
         content.addView(text("Test", 15f, cText, true))
         content.addView(button("Lock the screen now, then unlock") {
             if (!PinVault.hasPin(this)) {
