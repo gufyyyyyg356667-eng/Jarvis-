@@ -144,6 +144,9 @@ class PersonaActivity : AppCompatActivity() {
         preferences.voice = voice
         preferences.personality = currentSelectedPersona
 
+        // Apply the new persona and voice to the running conversation right away (it was only read at session start)
+        com.jarvis.assistant.background.JarvisConversationService.restartSession()
+
         val personaDisplayName = when (currentSelectedPersona) {
             GeminiConstants.PERSONALITY_GIRLFRIEND -> "Pari (Girlfriend Mode)"
             GeminiConstants.PERSONALITY_BOYFRIEND -> "Kabir (Boyfriend Mode)"

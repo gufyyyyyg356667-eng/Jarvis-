@@ -136,6 +136,10 @@
             android:name=".unlock.UnlockSetupActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".unlock.DiagnosticsActivity"
+            android:exported="false" />
+
         <service
             android:name=".planner.PlannerRingService"
             android:exported="false"
