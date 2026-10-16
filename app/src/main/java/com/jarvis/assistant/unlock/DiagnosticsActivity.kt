@@ -130,6 +130,10 @@ class DiagnosticsActivity : AppCompatActivity() {
                 sb.append("Editable fields visible: ").append(countEditable(root, 0)).append('\n')
                 val ok = try { svc.typeText("Jarvis test") } catch (e: Exception) { false }
                 sb.append("typeText result: ").append(if (ok) "SUCCESS (text was typed)" else "FAILED").append('\n')
+                if (!ok) {
+                    val fb = com.jarvis.assistant.typing.KeyboardTyper.type(applicationContext, "Jarvis test", false)
+                    sb.append("Keyboard fallback: ").append(if (fb.success) "SUCCESS" else "FAILED").append(" - ").append(fb.message).append('\n')
+                }
             }
             runOnUiThread { runReport(sb.toString()) }
         }.start()

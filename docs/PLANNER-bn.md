@@ -30,3 +30,8 @@ Battery: no restrictions, Autostart: on, Notifications: on, Location "all the ti
 - Voice: "Unlock my phone", "Lock the phone".
 - Works only with a PIN lock and only if the lock screen keypad is visible to accessibility (some Xiaomi/Redmi/Poco phones hide it).
 - Code: app/src/main/java/com/jarvis/assistant/unlock/
+
+# Typing everywhere (keyboard fallback)
+If an app does not expose its text box to accessibility (code editors, note apps, custom views), type_text now falls back to
+copying the text and tapping it in Gboard's clipboard, the way a person would. Needs Gboard with Settings > Clipboard turned on and the keyboard open on the field.
+It never types into the browser address bar or password fields. Code: app/src/main/java/com/jarvis/assistant/typing/KeyboardTyper.kt

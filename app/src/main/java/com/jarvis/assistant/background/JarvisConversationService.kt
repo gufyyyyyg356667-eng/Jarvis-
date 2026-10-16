@@ -2167,6 +2167,17 @@ class JarvisConversationService : Service() {
                         if (actionRes.currentStateSummary.isNotBlank()) {
                             result.put("current_screen_elements", actionRes.currentStateSummary)
                         }
+                        // Universal fallback: if the app does not expose its text box, type through the keyboard like a hand would
+                        if (!actionRes.success && text.isNotBlank()) {
+                            val fb = com.jarvis.assistant.typing.KeyboardTyper.type(applicationContext, text, submit)
+                            if (fb.success) {
+                                result.put("success", true)
+                                result.put("verified", false)
+                                result.put("message", "Typed using the keyboard. " + fb.message + " This app does not let me read the field back, so check the screen.")
+                            } else {
+                                result.put("keyboard_fallback", fb.message)
+                            }
+                        }
                         val isPromptTarget = targetInput.contains("prompt", ignoreCase = true) ||
                             targetInput.contains("create", ignoreCase = true) || targetInput.contains("describe", ignoreCase = true)
                         if (isGoogleFlowCreationTask && isPromptTarget && actionRes.success && actionRes.verified == true) {
